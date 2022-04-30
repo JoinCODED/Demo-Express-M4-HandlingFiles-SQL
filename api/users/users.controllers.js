@@ -2,6 +2,9 @@ let User = require('../../db/models/User');
 
 exports.usersCreate = async (req, res) => {
   try {
+    if (req.file) {
+      req.body.image = `http://${req.get('host')}/media/${req.file.filename}`;
+    }
     const newUser = await User.create(req.body);
     res.status(201).json(newUser);
   } catch (error) {
@@ -29,6 +32,9 @@ exports.usersUpdate = async (req, res) => {
   try {
     const foundUser = User.findByPk(+UserId);
     if (foundUser) {
+      if (req.file) {
+        req.body.image = `http://${req.get('host')}/media/${req.file.filename}`;
+      }
       await foundUser.update(req.body);
       res.status(204).end();
     } else {

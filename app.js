@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const usersRoutes = require('./api/users/users.routes');
 const db = require('./db/models');
+const path = require('path');
 
 const run = async () => {
   try {
@@ -18,3 +19,4 @@ const run = async () => {
 run();
 app.use(express.json());
 app.use('/users', usersRoutes);
+app.use('/media', express.static(path.join(__dirname, 'media')));
